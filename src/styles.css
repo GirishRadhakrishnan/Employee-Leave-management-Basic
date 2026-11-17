@@ -1,0 +1,669 @@
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --text: #1f2430;
+  --muted: #5d6677;
+  --border: #d8dce5;
+  --accent: #2456c7;
+  --accent-text: #ffffff;
+  --danger: #b3261e;
+  --pending-bg: #fff3cd;
+  --pending-fg: #7a5a00;
+  --approved-bg: #d9f2e0;
+  --approved-fg: #146c2e;
+  --rejected-bg: #fbdcda;
+  --rejected-fg: #8c1d18;
+  --cancelled-bg: #e6e8ee;
+  --cancelled-fg: #4a5163;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+code,
+pre {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background: #eef0f5;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  overflow-x: auto;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Layout */
+.shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.sidebar h1 {
+  font-size: 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.sidebar h2 {
+  font-size: 0.8rem;
+  text-transform: none;
+  color: var(--muted);
+  margin: 1rem 0 0.25rem;
+}
+
+.topic-link {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.topic-link:hover {
+  background: #eef0f5;
+}
+
+.topic-link.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.content {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.content > * {
+  max-width: 928px;
+}
+
+.file-label {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+/* Blocks */
+.demo {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.try {
+  border-left: 4px solid var(--accent);
+  background: #eaf0fd;
+  padding: 0.6rem 0.9rem;
+  margin: 1.5rem 0 0;
+}
+
+.note {
+  border-left: 4px solid #c99a00;
+  background: #fff8e1;
+  padding: 0.6rem 0.9rem;
+  margin: 1rem 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+}
+
+.card h3,
+.card p {
+  margin: 0.15rem 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cols-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge.pending {
+  background: var(--pending-bg);
+  color: var(--pending-fg);
+}
+
+.badge.approved {
+  background: var(--approved-bg);
+  color: var(--approved-fg);
+}
+
+.badge.rejected {
+  background: var(--rejected-bg);
+  color: var(--rejected-fg);
+}
+
+.badge.cancelled {
+  background: var(--cancelled-bg);
+  color: var(--cancelled-fg);
+}
+
+/* Buttons */
+button {
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eef0f5;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+button.primary:hover {
+  background: #1b44a0;
+}
+
+button.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+button.danger:hover {
+  background: #fbe9e8;
+}
+
+/* Forms */
+input,
+select,
+textarea {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 420px;
+}
+
+.form label {
+  display: grid;
+  gap: 0.25rem;
+  font-weight: 600;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Apply-for-leave form (Day 3, Topic 8): compact */
+.apply-form {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 560px;
+}
+
+.field {
+  display: grid;
+  gap: 0.2rem;
+  align-content: start;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.3rem 0.5rem;
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.summary {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.summary.warn {
+  color: var(--pending-fg);
+}
+
+.field select[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+@media (max-width: 560px) {
+  .dates {
+    grid-template-columns: 1fr;
+  }
+}
+
+.message.success {
+  background: var(--approved-bg);
+  color: var(--approved-fg);
+}
+
+.message {
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  background: #eaf0fd;
+}
+
+.message.error {
+  background: var(--rejected-bg);
+  color: var(--rejected-fg);
+}
+
+/* Loading placeholder (Day 3) */
+.skeleton {
+  height: 3.2rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #e6e8ee 25%, #f2f3f7 50%, #e6e8ee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #eef0f5;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    height: auto;
+    overflow: visible;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Leaves dashboard (Day 3, Topic 8) */
+.lv-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.lv-header h2 {
+  margin: 0;
+}
+
+.lv-range {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+.lv-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "balance tracker"
+    "apply tracker"
+    "history history";
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.lv-balance { grid-area: balance; }
+.lv-apply { grid-area: apply; }
+.lv-tracker { grid-area: tracker; }
+.lv-history { grid-area: history; }
+
+.lv-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+
+.lv-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.lv-card .apply-form {
+  max-width: none;
+}
+
+.lv-balance-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.lv-stat {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.lv-stat p {
+  margin: 0.15rem 0 0;
+}
+
+.lv-stat b {
+  font-size: 1.5rem;
+}
+
+.lv-tracker-title {
+  margin: 0;
+}
+
+.lv-donut {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+  margin: 0.75rem auto;
+}
+
+.lv-donut-track,
+.lv-donut-arc {
+  fill: none;
+  stroke-width: 18;
+}
+
+.lv-donut-track {
+  stroke: #e6eefb;
+}
+
+.lv-donut-arc {
+  stroke: var(--accent);
+}
+
+.lv-donut-text {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text);
+  dominant-baseline: middle;
+}
+
+.lv-center {
+  text-align: center;
+}
+
+.lv-history-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.lv-history-head h3 {
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  .lv-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "balance" "apply" "tracker" "history";
+  }
+
+  .lv-balance-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- Employee leave tracker styles ---- */
+/* Project styles. Plain CSS. Colours and base elements come from src/styles.css;
+   everything here starts with "pj-" so it cannot clash with the topic pages. */
+
+.pj-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pj-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.pj-user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+.pj-user-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.pj-user-name {
+  font-weight: 600;
+}
+
+.pj-user-role {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.pj-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.pj-link {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.pj-link:hover {
+  background: #eef0f5;
+}
+
+.pj-link.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.pj-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 2rem;
+}
+
+.pj-footer {
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.pj-main h1 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.lv-header h1 {
+  margin: 0;
+}
+
+.pj-main h2 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.pj-leave {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pj-empty {
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.pj-login {
+  max-width: 440px;
+  margin: 3rem auto;
+}
+
+.lv-history td a {
+  color: inherit;
+}
+
+.pj-filters {
+  margin: 0 0 0.5rem;
+}
+
+.pj-leave h3 a {
+  color: inherit;
+}
